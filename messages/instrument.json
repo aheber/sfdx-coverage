@@ -1,0 +1,8 @@
+{
+  "commandDescription": "Prints a greeting and your org id(s)!",
+  "errorNoOrgResults": "No results found for the organization '%s'.",
+  "filesFlagDescription": "list of files",
+  "rootdirFlagDescription": "project root directory",
+  "outputFlagDescription": "output path for instrumented files",
+  "appNameFlagDescription": "name of your Lightning test application"
+}
