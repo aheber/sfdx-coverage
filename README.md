@@ -1,6 +1,8 @@
 sfdx-coverage
 =================
 
+# THIS IS ALPHA LEVEL, STILL FIGURING THINGS OUT, YOU HAVE BEEN WARNED
+
 Calculate Salesforce code coverage levels.
 
 Expects you to already have a default scratch org configured for the environment that already holds a copy of all of your code as well as having Lightning Testing Service v1.4 installed. Also expects [nyc](https://www.npmjs.com/package/nyc) to be installed and available from the command line.
