@@ -30,9 +30,60 @@ Hello myname! This is org: MyOrg and I will be around until Tue Mar 20 2018!
 public static args = [{name: 'file'}];
 
 protected static flagsConfig = {
-// flag with a value (-n, --name=VALUE)
-// TODO: allow instrumenting specific files
-appname: flags.string({char: 'a', description: messages.getMessage('appNameFlagDescription')}),
+    appname: {
+        name: 'appname',
+        char: 'a',
+        description: 'appname',
+        hasValue: true,
+        required: false,
+        type: 'string'
+    }, 
+    outputdir: {
+        name: 'outputdir',
+        char: 'd',
+        description: 'outputdir',
+        hasValue: true,
+        required: false,
+        type: 'directory'
+    }, 
+    resultformat: {
+        name: 'resultformat',
+        char: 'r',
+        description: 'resultformat',
+        hasValue: true,
+        required: false,
+        type: 'string',
+        values: ['human', 'tap', 'junit', 'json'],
+        default: 'human'
+    }, 
+    configfile: {
+        name: 'configfile',
+        char: 'f',
+        description: 'configfile',
+        hasValue: true,
+        required: false,
+        type: 'filepath'
+    }, 
+    leavebrowseropen: {
+        name: 'leavebrowseropen',
+        char: 'o',
+        description: 'leavebrowseropen',
+        type: 'flag',
+        hasValue: false,
+        required: false
+    }, 
+    timeout: {
+        name: 'timeout',
+        char: 't',
+        description: 'timeout',
+        type: 'number',
+        hasValue: true,
+        required: false,
+        default: 60000
+    }
+
+
+
 // rootdir: flags.string({char: 'r', required: true, description: messages.getMessage('rootdirFlagDescription')}),
 // outputdir: flags.string({char: 'd', required: true, description: messages.getMessage('outputFlagDescription')})
 };

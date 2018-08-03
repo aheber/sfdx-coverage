@@ -23,6 +23,7 @@ To retrieve coverage you'll want to run a few commands:
 [![License](https://img.shields.io/npm/l/sfdx-coverage.svg)](https://github.com/aheber/sfdx-coverage/blob/master/package.json)
 
 <!-- toc -->
+* [THIS IS ALPHA LEVEL, STILL FIGURING THINGS OUT, YOU HAVE BEEN WARNED](#this-is-alpha-level-still-figuring-things-out-you-have-been-warned)
 * [Debugging your plugin](#debugging-your-plugin)
 <!-- tocstop -->
 <!-- install -->
@@ -52,7 +53,12 @@ USAGE
   $ sfdx-coverage coverage:ltng:cover [FILE]
 
 OPTIONS
-  -a, --appname=appname                           name of your Lightning test application
+  -a, --appname=appname                           appname
+  -d, --outputdir=outputdir                       outputdir
+  -f, --configfile=configfile                     configfile
+  -o, --leavebrowseropen=leavebrowseropen         leavebrowseropen
+  -r, --resultformat=resultformat                 [default: human] resultformat
+  -t, --timeout=timeout                           [default: 60000] timeout
   -u, --targetusername=targetusername             username or alias for the target org; overrides default target org
   --apiversion=apiversion                         override the api version used for api requests made by this command
   --json                                          format output as json
