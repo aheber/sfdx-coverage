@@ -11,23 +11,15 @@ core.Messages.importMessagesDirectory(__dirname);
 
 // Load the specific messages for this file. Messages from @salesforce/command, @salesforce/core,
 // or any library that is using the messages framework can also be loaded this way.
-const messages = core.Messages.loadMessages('sfdx-coverage', 'instrument');
+const messages = core.Messages.loadMessages('sfdx-coverage', 'cover');
 
 export default class Instrument extends SfdxCommand {
 
 public static description = messages.getMessage('commandDescription');
 
 public static examples = [
-`$ sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com
-Hello world! This is org: MyOrg and I will be around until Tue Mar 20 2018!
-My hub org id is: 00Dxx000000001234
-`,
-`$ sfdx hello:org --name myname --targetusername myOrg@example.com
-Hello myname! This is org: MyOrg and I will be around until Tue Mar 20 2018!
-`
+`$ sfdx coverage:ltng:cover -a TestApp.app --configfile config/lts.json`
 ];
-
-public static args = [{name: 'file'}];
 
 protected static flagsConfig = {
     appname: {
@@ -81,11 +73,6 @@ protected static flagsConfig = {
         required: false,
         default: 60000
     }
-
-
-
-// rootdir: flags.string({char: 'r', required: true, description: messages.getMessage('rootdirFlagDescription')}),
-// outputdir: flags.string({char: 'd', required: true, description: messages.getMessage('outputFlagDescription')})
 };
 
 // Comment this out if your command does not require an org username
@@ -103,6 +90,7 @@ public async deployTestAPIOverwrite(){
     
     let self = this;
     
+    // copy a modified version of the lightningTestAPI javascript file and overwrite the version of the file in the .node_modules directory
     fs.readFile(__dirname+'/../../../../src/lib/salesforce-almoverride/lightningTestAPI.js', 'utf8', async function (err,data) {
       if(err){
         console.log('ERROR:', err);
@@ -132,6 +120,8 @@ public writeData(data, filename){
     });
   }
 
+  // Consume the salesforce-alm npm package and create a more addressable object
+  // inspiration from node-sfdx npm package
 public _processALM(): any{
     const sfdx = {};
     let self = this;

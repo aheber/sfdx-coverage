@@ -1,8 +1,5 @@
 {
-  "commandDescription": "Prints a greeting and your org id(s)!",
-  "errorNoOrgResults": "No results found for the organization '%s'.",
-  "filesFlagDescription": "list of files",
+  "commandDescription": "Uses istanbul to instrument your aura bundles inside of an SFDX project directory with some special sauce to make them Lightning compatible. Must still be uploaded to Salesforce.",
   "rootdirFlagDescription": "project root directory",
-  "outputFlagDescription": "output path for instrumented files",
-  "appNameFlagDescription": "name of your Lightning test application"
+  "outputFlagDescription": "output path for instrumented files"
 }

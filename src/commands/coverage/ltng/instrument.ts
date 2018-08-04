@@ -21,21 +21,10 @@ export default class Instrument extends SfdxCommand {
   public static description = messages.getMessage('commandDescription');
 
   public static examples = [
-  `$ sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com
-  Hello world! This is org: MyOrg and I will be around until Tue Mar 20 2018!
-  My hub org id is: 00Dxx000000001234
-  `,
-  `$ sfdx hello:org --name myname --targetusername myOrg@example.com
-  Hello myname! This is org: MyOrg and I will be around until Tue Mar 20 2018!
-  `
+  `$ sfdx coverage:ltng:instrument -r force-app -d lib-cov`
   ];
 
-  public static args = [{name: 'file'}];
-
   protected static flagsConfig = {
-    // flag with a value (-n, --name=VALUE)
-    // TODO: allow instrumenting specific files
-    // files: flags.string({char: 'f', description: messages.getMessage('filesFlagDescription')}),
     rootdir: flags.string({char: 'r', required: true, description: messages.getMessage('rootdirFlagDescription')}),
     outputdir: flags.string({char: 'd', required: true, description: messages.getMessage('outputFlagDescription')})
   };
@@ -58,7 +47,7 @@ export default class Instrument extends SfdxCommand {
     // process each file, instrumenting as needed
     let bundles = []
     for(var file of paths){
-      // TODO: if this is a bundle, add it to the list of bundles to add to package.xml
+      // if this is a bundle, add it to the list of bundles to add to package.xml
       var bName = this.getBundleName(file);
       if(bName){
         bundles.push(bName);
@@ -100,6 +89,8 @@ export default class Instrument extends SfdxCommand {
   public deployLTSOverride(options){
     // read in files
     // TODO: make this less clunky
+
+    // mostly just hoping LTS adds a new version that already has what we need
     let self = this;
     
     fs.readFile(__dirname+'/../../../../src/lib/lts_override/lts_testutil.resource-meta.xml', 'utf8', function (err,data) {
@@ -187,6 +178,9 @@ export default class Instrument extends SfdxCommand {
     return this.processForLightning(code);
   }
 
+  // Need significant changes here. File size is a big problem with this solution.
+  // core problem is that in Lightning we can't guaranteed specific methods called in any specific order
+  // so we spew the initialization across all functions in the method
   public processForLightning(data){
       // find ending location of header info
       // to be lightning compatible we must keep the enclosing module syntax

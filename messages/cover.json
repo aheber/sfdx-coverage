@@ -1,0 +1,3 @@
+{
+  "commandDescription": "should be used as a replacement for force:lightning:test:run that also retrieves coverage information"
+}
