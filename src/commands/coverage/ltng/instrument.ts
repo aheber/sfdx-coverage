@@ -6,6 +6,7 @@ import {dirname} from 'path';
 import * as mkdirp from 'mkdirp';
 import * as xml from 'xml';
 import * as crypto from 'crypto';
+import { isNullOrUndefined } from 'util';
 
 // TODO: handle static resources
 
@@ -25,6 +26,7 @@ export default class Instrument extends SfdxCommand {
   ];
 
   protected static flagsConfig = {
+    pathdir: flags.string({char: 'p', required: false, description: messages.getMessage('rootdirFlagDescription')}),
     rootdir: flags.string({char: 'r', required: true, description: messages.getMessage('rootdirFlagDescription')}),
     outputdir: flags.string({char: 'd', required: true, description: messages.getMessage('outputFlagDescription')})
   };
@@ -36,7 +38,8 @@ export default class Instrument extends SfdxCommand {
   protected static requiresProject = false;
 
   public async run(): Promise<core.AnyJson> {
-    const paths = await globby([process.cwd() + '/' + this.flags.rootdir+'/**/aura/*/*']);
+
+    const paths = (this.flags.pathdir) ? await globby([process.cwd() + '/' + this.flags.pathdir +'/*']) : await globby([process.cwd() + '/' + this.flags.rootdir+'/**/aura/*/*']);
     
     let options = {instrumenterConfig: {
       coverageVariable: '__coverage__',
@@ -174,7 +177,9 @@ export default class Instrument extends SfdxCommand {
     let coverageInfo = {};
     coverageInfo[filename] = instrumenter.lastFileCoverage();
     let coverageFilename = '.nyc_output/'+crypto.createHash('md5').update(filename).digest('hex')+'.json';
-    this.writeData(options, JSON.stringify(coverageInfo), coverageFilename);
+    if (!this.flags.pathdir) {
+      this.writeData(options, JSON.stringify(coverageInfo), coverageFilename);
+    }
     return this.processForLightning(code);
   }
 
